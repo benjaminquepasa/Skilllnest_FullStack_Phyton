@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Usuario</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f0ede8;
+      --surface: #ffffff;
+      --border: #c8c3bc;
+      --text: #1a1815;
+      --muted: #6b6560;
+      --accent: #2d5be3;
+      --accent-hover: #1a44c8;
+      --input-bg: #faf9f7;
+      --radius: 6px;
+      --shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .container {
+      background: var(--surface);
+      border-radius: 16px;
+      box-shadow: var(--shadow), 0 0 0 1px var(--border);
+      width: 100%;
+      max-width: 420px;
+      padding: 2.5rem;
+    }
+
+    h2 {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.6rem;
+      color: var(--text);
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .form-group {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    label {
+      font-size: 0.88rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    select {
+      width: 100%;
+      padding: 0.5rem 0.7rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--input-bg);
+      font-family: inherit;
+      font-size: 0.88rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+      appearance: none;
+    }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b6560' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.7rem center;
+      padding-right: 2rem;
+    }
+
+    input:focus, select:focus { border-color: var(--accent); }
+
+    .btn-row {
+      display: flex;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+
+    .btn {
+      padding: 0.6rem 2rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn:hover { background: var(--accent-hover); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Editar Usuario</h2>
+
+    <div class="form-group">
+      <label>Nombre</label>
+      <input type="text" value="Patricia">
+    </div>
+    <div class="form-group">
+      <label>E-mail</label>
+      <input type="email" value="patricia@codingdojo.com">
+    </div>
+    <div class="form-group">
+      <label>Contraseña</label>
+      <input type="password" value="password123">
+    </div>
+    <div class="form-group">
+      <label>Conf. Contraseña</label>
+      <input type="password" value="password123">
+    </div>
+    <div class="form-group">
+      <label>Tipo de Usuario</label>
+      <select>
+        <option selected>Administrador</option>
+        <option>Usuario</option>
+      </select>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn">Guardar</button>
+    </div>
+  </div>
+</body>
+</html>
