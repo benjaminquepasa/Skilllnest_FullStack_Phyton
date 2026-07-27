@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Pokémon no encontrado</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+  <main class="container" style="text-align: center; padding-top: 80px;">
+    <h1>⚠️ Error 404</h1>
+    <p style="font-size: 1.2rem; margin: 20px 0; color: #e74c3c;">{{ mensaje }}</p>
+    <a href="/pokemon" class="btn btn-blue" style="display: inline-block; text-decoration: none;">
+      Volver a la Pokédex
+    </a>
+  </main>
+</body>
+</html>
