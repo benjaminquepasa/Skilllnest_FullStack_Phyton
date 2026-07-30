@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataformas Digitales</title>
+    <!-- Íconos de Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Tu CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <div class="contenedor">
+        
+        <!-- Título principal -->
+        <div class="encabezado">
+            <h1><i class="bi bi-grid-fill"></i> Plataformas Digitales</h1>
+            <p>Visualización de datos de las principales plataformas digitales</p>
+        </div>
+
+        <!-- Tarjeta blanca principal -->
+        <div class="tarjeta">
+            
+            <!-- Sección de Filtros -->
+            <div class="filtros">
+                <h3><i class="bi bi-funnel-fill"></i> Filtros y Ordenamiento</h3>
+                
+                <div class="cajas-filtro">
+                    <div class="campo">
+                        <label>Filtrar por país:</label>
+                        <select>
+                            <option>Todos los países</option>
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label>Ordenar por:</label>
+                        <select>
+                            <option>Nombre</option>
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label>Dirección:</label>
+                        <select>
+                            <option>Ascendente</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ENCABEZADO NEGRO (Solo divs) -->
+            <div class="fila fila-encabezado">
+                <div class="columna col-nombre">Nombre <i class="bi bi-caret-down-fill"></i></div>
+                <div class="columna">Usuarios</div>
+                <div class="columna">Año Fundación</div>
+                <div class="columna">País</div>
+                <div class="columna centrado">Detalles</div>
+            </div>
+
+            <!-- FILAS DE DATOS (Solo divs con el for) -->
+            {% for item in datos %}
+            <div class="fila fila-datos">
+                <div class="columna col-nombre">
+                    <!-- Íconos de redes -->
+                    {% if item.nombre == 'Discord' %}<i class="bi bi-discord icono-red discord"></i>{% endif %}
+                    {% if item.nombre == 'Instagram' %}<i class="bi bi-instagram icono-red instagram"></i>{% endif %}
+                    {% if item.nombre == 'Netflix' %}<i class="bi bi-film icono-red netflix"></i>{% endif %}
+                    {% if item.nombre == 'Spotify' %}<i class="bi bi-spotify icono-red spotify"></i>{% endif %}
+                    {% if item.nombre == 'TikTok' %}<i class="bi bi-tiktok icono-red tiktok"></i>{% endif %}
+                    {% if item.nombre == 'Twitch' %}<i class="bi bi-twitch icono-red twitch"></i>{% endif %}
+                    {% if item.nombre == 'YouTube' %}<i class="bi bi-youtube icono-red youtube"></i>{% endif %}
+                    
+                    <strong>{{ item.nombre }}</strong>
+                </div>
+
+                <div class="columna">
+                    <span class="etiqueta azul">{{ item.usuarios }}</span>
+                </div>
+
+                <div class="columna texto-gris">
+                    {{ item.fundado }}
+                </div>
+
+                <div class="columna">
+                    <span class="etiqueta gris">{{ item.pais }}</span>
+                </div>
+
+                <div class="columna centrado">
+                    <button class="boton-info">
+                        <i class="bi bi-info-circle-fill"></i>
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+
+            <!-- Contador -->
+            <p class="contador">Showing {{ datos|length }} plataformas</p>
+
+        </div>
+
+        <!-- Pie de página -->
+        <div class="pie">
+            <p>Visualización de datos desarrollada con Flask y CSS.</p>
+            <p>Los datos mostrados son ficticios para fines educativos.</p>
+        </div>
+
+    </div>
+
+</body>
+</html>

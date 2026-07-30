@@ -1,0 +1,161 @@
+/* Configuración general */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f8;
+    color: #333333;
+    margin: 0;
+    padding: 20px;
+}
+
+.contenedor {
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+.encabezado {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.encabezado h1 {
+    color: #0066ff;
+    margin-bottom: 5px;
+}
+
+.encabezado p {
+    color: #666666;
+    margin-top: 0;
+}
+
+/* Tarjeta principal */
+.tarjeta {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Filtros */
+.filtros h3 {
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+.cajas-filtro {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.campo {
+    width: 33%;
+}
+
+.campo label {
+    display: block;
+    font-size: 12px;
+    color: #555;
+    margin-bottom: 4px;
+}
+
+.campo select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    background-color: #fafafa;
+}
+
+/* ESTRUCTURA DE LA TABLA HECHA CON DIVS */
+.fila {
+    display: flex; /* Coloca los divs en una sola línea horizontal */
+    align-items: center;
+    padding: 12px;
+}
+
+.columna {
+    flex: 1; /* Reparte el ancho equitativamente entre las 5 columnas */
+    font-size: 14px;
+}
+
+.col-nombre {
+    flex: 1.2; /* Le da un poquito más de espacio al nombre */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Encabezado negro */
+.fila-encabezado {
+    background-color: #22252a;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 13px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+/* Filas con borde abajo */
+.fila-datos {
+    border-bottom: 1px solid #eeeeee;
+}
+
+/* Etiquetas (Badges) */
+.etiqueta {
+    padding: 4px 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.etiqueta.azul {
+    background-color: #0066ff;
+    border-radius: 12px;
+}
+
+.etiqueta.gris {
+    background-color: #6c757d;
+    border-radius: 4px;
+}
+
+/* Botón de información */
+.boton-info {
+    background: transparent;
+    border: 1px solid #00d8ff;
+    color: #00d8ff;
+    border-radius: 4px;
+    padding: 2px 6px;
+    cursor: pointer;
+}
+
+.boton-info:hover {
+    background-color: #00d8ff;
+    color: white;
+}
+
+/* Íconos e utilidades */
+.centrado { text-align: center; }
+.texto-gris { color: #666666; }
+
+.icono-red { font-size: 18px; }
+.discord { color: #5865F2; }
+.instagram { color: #E1306C; }
+.netflix { color: #E50914; }
+.spotify { color: #1DB954; }
+.tiktok { color: #000000; }
+.twitch { color: #9146FF; }
+.youtube { color: #FF0000; }
+
+.contador {
+    text-align: right;
+    color: #888888;
+    font-size: 12px;
+    margin-top: 15px;
+}
+
+.pie {
+    text-align: center;
+    color: #888888;
+    font-size: 12px;
+    margin-top: 20px;
+}
