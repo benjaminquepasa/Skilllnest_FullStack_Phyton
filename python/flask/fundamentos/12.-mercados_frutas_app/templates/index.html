@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mercado de Frutas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <h2>🍎 Mercado de Frutas</h2>
+        <div>
+            <a href="/" class="activo">Inicio</a>
+            <a href="/frutas">Catálogo</a>
+        </div>
+    </header>
+
+    <!-- Banner Gris Superior -->
+    <div class="banner">
+        <h1>Frutas Frescas a Tu Puerta</h1>
+        <p>Selecciona tus frutas favoritas y realiza tu pedido</p>
+    </div>
+
+    <div class="contenedor">
+        <form action="/checkout" method="POST" class="layout">
+            
+            <!-- Sección Izquierda: Frutas -->
+            <div style="flex: 2;">
+                <h2 class="titulo-seccion">Selecciona tus frutas</h2>
+                <div class="grid">
+                    {% for clave, fruta in frutas.items() %}
+                    <div class="tarjeta">
+                        <img src="{{ url_for('static', filename='img/' + fruta.imagen) }}">
+                        <h3>{{ fruta.nombre }}</h3>
+                        <p class="precio">${{ fruta.precio }}</p>
+                        <p class="desc">{{ fruta.desc }}</p>
+                        <div class="cantidad">
+                            <label>Cantidad:</label>
+                            <input type="number" name="{{ clave }}" value="0" min="0">
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Sección Derecha: Formulario -->
+            <div class="formulario">
+                <h2 class="titulo-seccion">Información de Contacto</h2>
+                
+                <label>Nombre</label>
+                <input type="text" name="nombre" required>
+
+                <label>Email</label>
+                <input type="email" name="email" required>
+
+                <label>Dirección de entrega</label>
+                <textarea name="direccion" required rows="3"></textarea>
+
+                <button type="submit" class="btn-comprar">🛒 Crear Orden</button>
+            </div>
+
+        </form>
+    </div>
+</body>
+</html>

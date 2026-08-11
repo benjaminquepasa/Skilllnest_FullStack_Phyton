@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Catálogo de Frutas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <h2>🍎 Mercado de Frutas</h2>
+        <div>
+            <a href="/">Inicio</a>
+            <a href="/frutas" class="activo">Catálogo</a>
+        </div>
+    </header>
+
+    <!-- Banner Gris Superior -->
+    <div class="banner">
+        <h1>Nuestras Frutas</h1>
+        <p>Descubre nuestra variedad de frutas frescas disponibles</p>
+    </div>
+
+    <div class="contenedor">
+        <!-- Grid del Catálogo -->
+        <div class="grid-catalogo">
+            {% for clave, fruta in frutas.items() %}
+            <div class="tarjeta-catalogo">
+                <img src="{{ url_for('static', filename='img/' + fruta.imagen) }}">
+                <h3>{{ fruta.nombre }}</h3>
+                <p>${{ fruta.precio }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Botón del centro -->
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="/" class="btn-comprar" style="text-decoration: none; padding: 12px 25px; display: inline-block; width: auto;">🛒 Hacer un pedido</a>
+        </div>
+
+        <!-- Sección de Características de abajo -->
+        <div class="seccion-por-que">
+            <h2>¿Por qué elegirnos?</h2>
+            
+            <div class="grid-caracteristicas">
+                <div class="tarjeta-caracteristica">
+                    <div class="icono">🌱</div>
+                    <h3>100% Orgánico</h3>
+                    <p>Todas nuestras frutas son cultivadas sin pesticidas ni químicos dañinos.</p>
+                </div>
+
+                <div class="tarjeta-caracteristica">
+                    <div class="icono">🚚</div>
+                    <h3>Entrega Rápida</h3>
+                    <p>Entregamos en menos de 48 horas para asegurar la máxima frescura.</p>
+                </div>
+
+                <div class="tarjeta-caracteristica">
+                    <div class="icono">🏅</div>
+                    <h3>Calidad Garantizada</h3>
+                    <p>Si no estás satisfecho con nuestros productos, te devolvemos tu dinero.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
