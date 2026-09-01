@@ -1,63 +1,143 @@
+/* ==========================================================
+   VARIABLES
+   ========================================================== */
+:root {
+    --color-primary: #0d6efd;
+    --color-secondary: #6c757d;
+    --color-warning: #ffc107;
+    --color-danger: #dc3545;
+    --color-background: #f4f7fb;
+    --color-text: #212529;
+}
+
+/* ==========================================================
+   CONFIGURACIÓN GENERAL
+   ========================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #eef4ff, #f8f9fa);
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--color-text);
     display: flex;
     justify-content: center;
-    padding-top: 50px;
+    align-items: center;
+    padding: 20px;
 }
 
+/* ==========================================================
+   TARJETA PRINCIPAL (.container)
+   ========================================================== */
 .container {
+    width: 100%;
+    max-width: 500px;
+    padding: 40px 30px;
     background: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
     text-align: center;
-    max-width: 400px;
 }
 
+.container h1, 
+.container h2 {
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* ==========================================================
+   TARJETA DE CONTENIDO (.card)
+   ========================================================== */
 .card {
-    background: #eef2f5;
-    padding: 15px;
-    border-radius: 5px;
-    margin: 20px 0;
+    background: #f8f9fa;
+    padding: 25px 20px;
+    border-radius: 15px;
+    margin: 25px 0;
+    border: 1px solid #e9ecef;
+    font-size: 16px;
+    color: #495057;
+    line-height: 1.6;
 }
 
 .card span {
-    color: #007bff;
+    color: var(--color-primary);
     font-weight: bold;
+    font-size: 24px;
 }
 
+/* ==========================================================
+   BOTONES Y ACCIONES (.acciones / .btn)
+   ========================================================== */
 .acciones {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    margin-top: 20px;
 }
 
 .btn {
-    display: inline-block;
-    padding: 10px 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
     text-decoration: none;
     color: white;
-    border-radius: 4px;
+    border-radius: 10px;
     border: none;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: bold;
+    transition: transform 0.2s ease, filter 0.2s ease;
 }
 
-.btn-primary { background-color: #007bff; }
-.btn-secondary { background-color: #6c757d; }
-.btn-warning { background-color: #ffc107; color: black; }
-.btn-danger { background-color: #dc3545; }
+.btn:hover {
+    filter: brightness(0.92);
+    transform: translateY(-1px);
+}
 
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-primary { background-color: var(--color-primary); }
+.btn-secondary { background-color: var(--color-secondary); }
+.btn-warning { background-color: var(--color-warning); color: #212529; }
+.btn-danger { background-color: var(--color-danger); }
+
+/* ==========================================================
+   FORMULARIO INLINE (.form-inline)
+   ========================================================== */
 .form-inline {
     display: flex;
-    gap: 5px;
+    gap: 8px;
     justify-content: center;
+    width: 100%;
 }
 
 .form-inline input {
-    width: 80px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.form-inline input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
+}
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+@media (max-width: 576px) {
+    .container {
+        padding: 30px 20px;
+    }
 }
