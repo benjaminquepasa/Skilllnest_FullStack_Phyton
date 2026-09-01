@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORE - Contador de Visitas</title>
+    <!-- Vinculamos el archivo CSS de la carpeta static -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Contador de Visitas</h1>
+
+        <!-- Mostramos los datos pasados desde app.py -->
+        <div class="card">
+            <h2>Has visitado esta página <span>{{ visitas }}</span> veces</h2>
+            <p>El contador se ha reiniciado <span>{{ reinicios }}</span> veces</p>
+        </div>
+
+        <div class="acciones">
+            <!-- Botón +2 -->
+            <a href="/sumar_dos" class="btn btn-primary">+2 Visitas</a>
+
+            <!-- Formulario de número personalizado -->
+            <form action="/sumar_custom" method="POST" class="form-inline">
+                <input type="number" name="cantidad" placeholder="Cant." min="1" required>
+                <button type="submit" class="btn btn-secondary">Añadir</button>
+            </form>
+
+            <!-- Botón Reiniciar a 0 -->
+            <a href="/reiniciar" class="btn btn-warning">Reiniciar a 0</a>
+
+            <!-- Botón Destruir Sesión -->
+            <a href="/destruir_sesion" class="btn btn-danger">Destruir Sesión</a>
+        </div>
+    </div>
+</body>
+</html>
