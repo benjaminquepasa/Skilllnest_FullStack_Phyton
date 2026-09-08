@@ -20,3 +20,4 @@ VALUES
     ("Luna", "Perro", "Blanco"),
     ("Nala", "Gato", "Naranjo"),
     ("Coco", "Conejo", "Blanco");
+```[cite: 1]

@@ -1,10 +1,6 @@
 from mysqlconnection import connectToMySQL
 
 class Mascota:
-    """
-    Representa un registro de la tabla mascotas.
-    """
-
     def __init__(self, data):
         self.id = data["id"]
         self.nombre = data["nombre"]
@@ -22,6 +18,7 @@ class Mascota:
         resultados = connectToMySQL(
             "primera_flask"
         ).query_db(query)
+
         mascotas = []
         for mascota in resultados:
             mascotas.append(

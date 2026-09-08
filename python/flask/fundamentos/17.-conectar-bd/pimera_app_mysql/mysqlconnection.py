@@ -1,10 +1,6 @@
 import pymysql.cursors
 
 class MySQLConnection:
-    """
-    Administra la conexión con una base de datos MySQL.
-    """
-
     def __init__(self, db):
         self.connection = pymysql.connect(
             host="localhost",
@@ -19,8 +15,6 @@ class MySQLConnection:
     def query_db(self, query, data=None):
         with self.connection.cursor() as cursor:
             try:
-                print("Running Query:")
-                print(query)
                 cursor.execute(query, data)
                 if query.strip().lower().startswith("select"):
                     resultados = cursor.fetchall()

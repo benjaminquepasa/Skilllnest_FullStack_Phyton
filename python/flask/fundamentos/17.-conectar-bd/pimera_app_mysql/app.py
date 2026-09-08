@@ -9,7 +9,7 @@ def index():
     print(mascotas)
     return render_template(
         "index.html",
-        mascotas=mascotas
+        todas_mascotas=mascotas
     )
 
 if __name__ == "__main__":
