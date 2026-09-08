@@ -15,6 +15,8 @@ class MySQLConnection:
     def query_db(self, query, data=None):
         with self.connection.cursor() as cursor:
             try:
+                print("Running Query:")
+                print(query)
                 cursor.execute(query, data)
                 if query.strip().lower().startswith("select"):
                     resultados = cursor.fetchall()

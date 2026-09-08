@@ -18,7 +18,6 @@ class Mascota:
         resultados = connectToMySQL(
             "primera_flask"
         ).query_db(query)
-
         mascotas = []
         for mascota in resultados:
             mascotas.append(
