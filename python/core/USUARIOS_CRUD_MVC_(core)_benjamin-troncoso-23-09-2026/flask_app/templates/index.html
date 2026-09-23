@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Usuarios</title>
+    <!-- Pega aquí las 3 líneas de Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kreon:wght@300..700&family=Zeyada&display=swap" rel="stylesheet">
+    <!-- Importamos Bootstrap para los estilos -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="container mt-5">
+    <!-- Título principal y botón para crear un usuario -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Lista de Usuarios</h1>
+        <a href="{{ url_for('nuevo') }}" class="btn btn-primary">Nuevo Usuario</a>
+    </div>
+
+    <div class="card p-3 shadow-sm">
+        <!-- Verificamos si hay usuarios en la lista -->
+        {% if usuarios %}
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre Completo</th>
+                        <th>E-mail</th>
+                        <th>Fecha Creación</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Iteramos sobre cada usuario -->
+                    {% for usuario in usuarios %}
+                    <tr>
+                        <td>{{ usuario.id }}</td>
+                        <td>{{ usuario.nombre }} {{ usuario.apellido }}</td>
+                        <td>{{ usuario.email }}</td>
+                        <td>
+                            {% if usuario.created_at %}
+                                {{ usuario.created_at.strftime("%Y-%m-%d") }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="acciones">
+                                <a href="{{ url_for('detalle', id=usuario.id) }}" class="btn btn-sm btn-outline-primary">Ver</a>
+                                <a href="{{ url_for('editar', id=usuario.id) }}" class="btn btn-sm btn-outline-warning">Editar</a>
+                                <a href="{{ url_for('borrar', id=usuario.id) }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Estás seguro de eliminar este usuario?');">Borrar</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <!-- Mensaje si la lista está vacía -->
+            <div class="empty-state text-center py-5">
+                <h3>No hay usuarios registrados.</h3>
+                <p class="text-muted">Crea el primer usuario para comenzar.</p>
+                <a href="{{ url_for('nuevo') }}" class="btn btn-primary">Crear Usuario</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>
