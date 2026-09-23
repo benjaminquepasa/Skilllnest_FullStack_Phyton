@@ -3,43 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>Nuevo Usuario</title>
-    <!-- Pega aquí las 3 líneas de Google Fonts -->
+    <!--Google Fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kreon:wght@300..700&family=Zeyada&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kreon:wght@300..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
-<div class="container mt-5">
+<div class="main-container">
     <div class="form-card">
-        <h1 class="mb-3">Crear Nuevo Usuario</h1>
-        <p class="text-muted mb-4">Ingresa los datos solicitados.</p>
+        <div class="mb-4">
+            <h1>Crear nuevo usuario</h1>
+            <p class="text-muted">Ingresa los datos del usuario.</p>
+        </div>
 
-        <!-- Muestra un mensaje de error si ocurre una validación fallida -->
         {% if error %}
             <div class="alert alert-danger">{{ error }}</div>
         {% endif %}
 
-        <!-- Formulario enviado por POST a la ruta 'crear' -->
         <form action="{{ url_for('crear') }}" method="POST">
-            <div class="mb-3">
+            <div class="form-group">
                 <label for="nombre" class="form-label">Nombre</label>
-                <input type="text" id="nombre" name="nombre" class="form-control" value="{{ datos.nombre if datos else '' }}" required>
+                <input type="text" id="nombre" name="nombre" class="form-control" maxlength="45" value="{{ datos.nombre if datos else '' }}" required>
             </div>
 
-            <div class="mb-3">
+            <div class="form-group">
                 <label for="apellido" class="form-label">Apellido</label>
-                <input type="text" id="apellido" name="apellido" class="form-control" value="{{ datos.apellido if datos else '' }}" required>
+                <input type="text" id="apellido" name="apellido" class="form-control" maxlength="45" value="{{ datos.apellido if datos else '' }}" required>
             </div>
 
-            <div class="mb-3">
+            <div class="form-group">
                 <label for="email" class="form-label">E-mail</label>
-                <input type="email" id="email" name="email" class="form-control" value="{{ datos.email if datos else '' }}" required>
+                <input type="email" id="email" name="email" class="form-control" maxlength="45" value="{{ datos.email if datos else '' }}" required>
             </div>
 
-            <div class="d-flex gap-2">
+            <div class="button-group">
                 <button type="submit" class="btn btn-primary">Crear</button>
                 <a href="{{ url_for('usuarios') }}" class="btn btn-outline-secondary">Volver</a>
             </div>
