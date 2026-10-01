@@ -2,33 +2,47 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>BookHub - Favoritos</title>
+    <title>BookHub - Mis Favoritos</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
-<body class="container mt-4">
-    <nav class="d-flex justify-content-between align-items-center mb-4">
-        <h2>BookHub - Mis Favoritos</h2>
-        <div>
-            <a href="/libros" class="me-3">Mis Libros</a>
-            <a href="/favoritos" class="me-3">Mis Favoritos</a>
-            <a href="/logout" class="btn btn-sm btn-outline-danger ms-3">Salir</a>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 py-3 mb-4 shadow-sm">
+        <a class="navbar-brand d-flex align-items-center text-white text-decoration-none" href="/libros">
+            <i class="bi bi-book-half fs-3 me-2"></i>
+            <span class="fs-4 fw-bold">BookHub</span>
+        </a>
+        <div class="collapse navbar-collapse show">
+            <ul class="navbar-nav me-auto ms-4">
+                <li class="nav-item"><a class="nav-link" href="/libros">Mis Libros</a></li>
+                <li class="nav-item"><a class="nav-link" href="/explorar">Explorar</a></li>
+                <li class="nav-item"><a class="nav-link active fw-semibold" href="/favoritos">Mis Favoritos</a></li>
+            </ul>
+            <div class="d-flex align-items-center text-white">
+                <span class="me-3">Bienvenido, {{ session['first_name'] }}</span>
+                <a href="/logout" class="btn btn-outline-light btn-sm">Salir</a>
+            </div>
         </div>
     </nav>
-    <table class="table table-bordered mt-2">
-        <thead>
-            <tr><th>Título</th><th>Autor</th><th>Género</th><th>Fecha</th><th>Acción</th></tr>
-        </thead>
-        <tbody>
-            {% for book in favorite_books %}
-            <tr>
-                <td>{{ book.title }}</td>
-                <td>{{ book.author }}</td>
-                <td>{{ book.genre }}</td>
-                <td>{{ book.publication_date }}</td>
-                <td><a href="/libros/{{ book.id }}">Ver</a></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+
+    <div class="container">
+        <h2 class="fw-bold mb-3">Mis Libros Favoritos</h2>
+        <table class="table table-bordered table-hover bg-white shadow-sm">
+            <thead class="table-dark">
+                <tr><th>Título</th><th>Autor</th><th>Género</th><th>Fecha</th><th>Acción</th></tr>
+            </thead>
+            <tbody>
+                {% for book in favorite_books %}
+                <tr>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.genre }}</td>
+                    <td>{{ book.publication_date }}</td>
+                    <td><a href="/libros/{{ book.id }}" class="text-primary">Ver</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

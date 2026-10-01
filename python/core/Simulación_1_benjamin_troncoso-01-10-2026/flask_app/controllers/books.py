@@ -8,10 +8,19 @@ def dashboard():
         return redirect('/')
     
     all_books = Book.get_all()
+    # Libros propios del usuario conectado
     user_books = [b for b in all_books if b.user_id == session['user_id']]
-    community_books = [b for b in all_books if b.user_id != session['user_id']]
+    # Todos los libros disponibles para que la comunidad siempre muestre contenido con sus usuarios
+    community_books = all_books 
     
     return render_template('dashboard.html', user_books=user_books, community_books=community_books)
+
+@app.route('/explorar')
+def explore():
+    if 'user_id' not in session:
+        return redirect('/')
+    all_books = Book.get_all()
+    return render_template('explore.html', all_books=all_books)
 
 @app.route('/libros/nuevo')
 def new_book_page():

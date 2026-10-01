@@ -14,7 +14,7 @@ class Book:
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
         self.posted_by = data.get('posted_by')
-        self.favorites = []
+        self.favorites_count = data.get('favorites_count', 0)
 
     @classmethod
     def save(cls, data):
@@ -23,7 +23,11 @@ class Book:
 
     @classmethod
     def get_all(cls):
-        query = "SELECT books.*, users.first_name as posted_by FROM books JOIN users ON books.user_id = users.id;"
+        query = """
+            SELECT books.*, users.first_name as posted_by, 
+            (SELECT COUNT(*) FROM favorites WHERE favorites.book_id = books.id) as favorites_count 
+            FROM books JOIN users ON books.user_id = users.id;
+        """
         results = connect_to_mysql(DATABASE).query_db(query)
         books = []
         if results:
@@ -33,7 +37,11 @@ class Book:
 
     @classmethod
     def get_by_id(cls, data):
-        query = "SELECT books.*, users.first_name as posted_by FROM books JOIN users ON books.user_id = users.id WHERE books.id = %(id)s;"
+        query = """
+            SELECT books.*, users.first_name as posted_by, 
+            (SELECT COUNT(*) FROM favorites WHERE favorites.book_id = books.id) as favorites_count 
+            FROM books JOIN users ON books.user_id = users.id WHERE books.id = %(id)s;
+        """
         result = connect_to_mysql(DATABASE).query_db(query, data)
         if not result:
             return None
@@ -56,7 +64,11 @@ class Book:
 
     @classmethod
     def get_favorites_by_user(cls, data):
-        query = "SELECT books.*, users.first_name as posted_by FROM books JOIN favorites ON books.id = favorites.book_id JOIN users ON books.user_id = users.id WHERE favorites.user_id = %(user_id)s;"
+        query = """
+            SELECT books.*, users.first_name as posted_by, 
+            (SELECT COUNT(*) FROM favorites WHERE favorites.book_id = books.id) as favorites_count 
+            FROM books JOIN favorites ON books.id = favorites.book_id JOIN users ON books.user_id = users.id WHERE favorites.user_id = %(user_id)s;
+        """
         results = connect_to_mysql(DATABASE).query_db(query, data)
         return [cls(row) for row in results] if results else []
 
