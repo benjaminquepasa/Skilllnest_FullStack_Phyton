@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>BookHub - Favoritos</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-4">
+    <nav class="d-flex justify-content-between align-items-center mb-4">
+        <h2>BookHub - Mis Favoritos</h2>
+        <div>
+            <a href="/libros" class="me-3">Mis Libros</a>
+            <a href="/favoritos" class="me-3">Mis Favoritos</a>
+            <a href="/logout" class="btn btn-sm btn-outline-danger ms-3">Salir</a>
+        </div>
+    </nav>
+    <table class="table table-bordered mt-2">
+        <thead>
+            <tr><th>Título</th><th>Autor</th><th>Género</th><th>Fecha</th><th>Acción</th></tr>
+        </thead>
+        <tbody>
+            {% for book in favorite_books %}
+            <tr>
+                <td>{{ book.title }}</td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.genre }}</td>
+                <td>{{ book.publication_date }}</td>
+                <td><a href="/libros/{{ book.id }}">Ver</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
