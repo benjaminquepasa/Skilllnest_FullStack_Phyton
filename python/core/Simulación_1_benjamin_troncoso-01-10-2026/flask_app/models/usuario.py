@@ -3,9 +3,10 @@ from flask_app import DATABASE
 import re
 from flask import flash
 
+# Expresión regular para validar el formato correcto de un correo electrónico
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
-class User:
+class Usuario:
     def __init__(self, data):
         self.id = data['id']
         self.first_name = data['first_name']
@@ -17,11 +18,13 @@ class User:
 
     @classmethod
     def save(cls, data):
+        """ Inserta un nuevo usuario en la base de datos de MySQL (tabla users) """
         query = "INSERT INTO users (first_name, last_name, email, password, created_at, updated_at) VALUES (%(first_name)s, %(last_name)s, %(email)s, %(password)s, NOW(), NOW());"
         return connect_to_mysql(DATABASE).query_db(query, data)
 
     @classmethod
     def get_by_email(cls, data):
+        """ Busca y retorna un usuario según su correo electrónico """
         query = "SELECT * FROM users WHERE email = %(email)s;"
         result = connect_to_mysql(DATABASE).query_db(query, data)
         if len(result) < 1:
@@ -30,6 +33,7 @@ class User:
 
     @classmethod
     def get_by_id(cls, data):
+        """ Busca y retorna un usuario según su ID único """
         query = "SELECT * FROM users WHERE id = %(id)s;"
         result = connect_to_mysql(DATABASE).query_db(query, data)
         if len(result) < 1:
@@ -38,25 +42,38 @@ class User:
 
     @staticmethod
     def validate_register(user):
+        """ Valida las reglas de negocio para el registro de nuevos usuarios """
         is_valid = True
+        
+        # Validar longitud mínima del nombre
         if len(user['first_name']) < 2:
             flash("El nombre debe tener al menos 2 caracteres.", "register")
             is_valid = False
+            
+        # Validar longitud mínima del apellido
         if len(user['last_name']) < 2:
             flash("El apellido debe tener al menos 2 caracteres.", "register")
             is_valid = False
+            
+        # Validar formato del correo electrónico
         if not EMAIL_REGEX.match(user['email']):
             flash("Formato de correo electrónico inválido.", "register")
             is_valid = False
         else:
-            user_in_db = User.get_by_email({'email': user['email']})
+            # Comprobar si el correo ya existe en la base de datos
+            user_in_db = Usuario.get_by_email({'email': user['email']})
             if user_in_db:
                 flash("El correo electrónico ya está registrado.", "register")
                 is_valid = False
+                
+        # Validar longitud de la contraseña
         if len(user['password']) < 8:
             flash("La contraseña debe tener al menos 8 caracteres.", "register")
             is_valid = False
+            
+        # Validar que las contraseñas coincidan
         if user['password'] != user['confirm_password']:
             flash("Las contraseñas no coinciden.", "register")
             is_valid = False
+            
         return is_valid
