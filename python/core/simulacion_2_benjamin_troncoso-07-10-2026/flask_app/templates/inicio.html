@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="row mt-5">
+    <div class="col-md-6">
+        <h3>Crear Cuenta</h3>
+        {% with messages = get_flashed_messages(category_filter=['register']) %}
+            {% if messages %}
+                <div class="alert alert-danger">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        <form action="/registro" method="POST">
+            <div class="mb-3">
+                <label>Nombre:</label>
+                <input type="text" name="nombre" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label>Apellido:</label>
+                <input type="text" name="apellido" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label>E-mail:</label>
+                <input type="email" name="email" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label>Contraseña:</label>
+                <input type="password" name="password" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label>Confirmar Contraseña:</label>
+                <input type="password" name="confirm_password" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-dark">Registrarse</button>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <h3>Iniciar Sesión</h3>
+        {% with messages = get_flashed_messages(category_filter=['login']) %}
+            {% if messages %}
+                <div class="alert alert-danger">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        <form action="/login" method="POST">
+            <div class="mb-3">
+                <label>E-mail:</label>
+                <input type="email" name="email" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label>Contraseña:</label>
+                <input type="password" name="password" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-dark">Iniciar Sesión</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

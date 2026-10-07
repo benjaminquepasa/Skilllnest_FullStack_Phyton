@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="card shadow p-4">
+    <h2>{{ tarea.titulo }}</h2>
+    <hr>
+    <p><strong>Categoría:</strong> {{ tarea.categoria_nombre }}</p>
+    <p><strong>Prioridad:</strong> <span class="badge {% if tarea.prioridad == 'Alta' %}bg-danger{% elif tarea.prioridad == 'Media' %}bg-warning text-dark{% else %}bg-success{% endif %}">{{ tarea.prioridad }}</span></p>
+    <p><strong>Estado:</strong> {{ tarea.estado }}</p>
+    <p><strong>Fecha límite:</strong> {{ tarea.fecha_limite }}</p>
+    <p><strong>Descripción:</strong> {{ tarea.descripcion }}</p>
+
+    <div class="mt-4">
+        <a href="/tareas/editar/{{ tarea.id }}" class="btn btn-primary">Editar</a>
+        {% if tarea.estado != 'Completada' %}
+        <a href="/tareas/estado/{{ tarea.id }}/Completada" class="btn btn-success">Marcar como Completada</a>
+        {% endif %}
+        <a href="/tareas" class="btn btn-outline-secondary">Volver a Mis Tareas</a>
+    </div>
+</div>
+{% endblock %}

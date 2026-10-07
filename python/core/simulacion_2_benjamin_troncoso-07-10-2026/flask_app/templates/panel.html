@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Mis Tareas</h2>
+    <a href="/tareas/nueva" class="btn btn-primary">+ Nueva Tarea</a>
+</div>
+
+<!-- Filtros y Búsqueda -->
+<form action="/tareas" method="GET" class="row g-3 mb-4">
+    <div class="col-md-4">
+        <input type="text" name="busqueda" value="{{ filtros.busqueda }}" class="form-control" placeholder="Buscar por título...">
+    </div>
+    <div class="col-md-3">
+        <select name="estado" class="form-select">
+            <option value="Todos" {% if filtros.estado == 'Todos' %}selected{% endif %}>Todos los estados</option>
+            <option value="Pendiente" {% if filtros.estado == 'Pendiente' %}selected{% endif %}>Pendiente</option>
+            <option value="En progreso" {% if filtros.estado == 'En progreso' %}selected{% endif %}>En progreso</option>
+            <option value="Completada" {% if filtros.estado == 'Completada' %}selected{% endif %}>Completada</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <select name="prioridad" class="form-select">
+            <option value="Todas" {% if filtros.prioridad == 'Todas' %}selected{% endif %}>Todas las prioridades</option>
+            <option value="Alta" {% if filtros.prioridad == 'Alta' %}selected{% endif %}>Alta</option>
+            <option value="Media" {% if filtros.prioridad == 'Media' %}selected{% endif %}>Media</option>
+            <option value="Baja" {% if filtros.prioridad == 'Baja' %}selected{% endif %}>Baja</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-secondary w-100">Filtrar</button>
+    </div>
+</form>
+
+<!-- Tabla de Tareas -->
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Título</th>
+            <th>Categoría</th>
+            <th>Prioridad</th>
+            <th>Fecha Límite</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tarea in tareas %}
+        <tr>
+            <td><a href="/tareas/{{ tarea.id }}">{{ tarea.titulo }}</a></td>
+            <td>{{ tarea.categoria_nombre }}</td>
+            <td>
+                <span class="badge {% if tarea.prioridad == 'Alta' %}bg-danger{% elif tarea.prioridad == 'Media' %}bg-warning text-dark{% else %}bg-success{% endif %}">
+                    {{ tarea.prioridad }}
+                </span>
+            </td>
+            <td>{{ tarea.fecha_limite }}</td>
+            <td>{{ tarea.estado }}</td>
+            <td>
+                <a href="/tareas/{{ tarea.id }}" class="btn btn-sm btn-info text-white">Ver</a>
+                <a href="/tareas/editar/{{ tarea.id }}" class="btn btn-sm btn-warning">Editar</a>
+                <a href="/tareas/borrar/{{ tarea.id }}" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro?')">Borrar</a>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="6" class="text-center">No hay tareas registradas.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Sección Resumen y Próximas Tareas -->
+<div class="row mt-5">
+    <div class="col-md-6">
+        <h4>Próximas tareas</h4>
+        <ul class="list-group">
+            {% for prox in proximas %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ prox.titulo }} - {{ prox.fecha_limite }}
+                <span class="badge bg-secondary">{{ prox.dias_restantes }} días restantes</span>
+            </li>
+            {% else %}
+            <li class="list-group-item">No hay tareas próximas pendientes.</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <h4>Resumen</h4>
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">Total de tareas: <span class="badge bg-primary">{{ resumen.total or 0 }}</span></li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Pendientes: <span class="badge bg-warning text-dark">{{ resumen.pendientes or 0 }}</span></li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">En progreso: <span class="badge bg-info text-dark">{{ resumen.en_progreso or 0 }}</span></li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">Completadas: <span class="badge bg-success">{{ resumen.completadas or 0 }}</span></li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
