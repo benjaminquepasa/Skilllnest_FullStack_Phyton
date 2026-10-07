@@ -1,8 +1,13 @@
 CREATE DATABASE IF NOT EXISTS tasktrack_db;
 USE tasktrack_db;
 
+-- Eliminar tablas anteriores si están incompletas o mal estructuradas
+DROP TABLE IF EXISTS tasks;
+DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS users;
+
 -- Tabla de Usuarios
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     apellido VARCHAR(100) NOT NULL,
@@ -13,7 +18,7 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 -- Tabla de Categorías
-CREATE TABLE IF NOT EXISTS categories (
+CREATE TABLE categories (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     user_id INT NOT NULL,
@@ -22,8 +27,8 @@ CREATE TABLE IF NOT EXISTS categories (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- Tabla de Tareas
-CREATE TABLE IF NOT EXISTS tasks (
+-- Tabla de Tareas (Completa con category_id y relaciones)
+CREATE TABLE tasks (
     id INT AUTO_INCREMENT PRIMARY KEY,
     titulo VARCHAR(150) NOT NULL,
     descripcion TEXT NOT NULL,
