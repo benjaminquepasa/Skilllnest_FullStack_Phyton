@@ -1,71 +1,109 @@
-from flask_app import app
 from flask import render_template, redirect, request, session, flash
-from python.core.certificacion_skillnest_1_cinepedia_benjamin_troncoso.flask_app.models.cine import cine
-from flask_app.models.categoria import Categoria
+from flask_app import app
+from flask_app.models.cine import Pelicula
+from flask_app.config.mysqlconnection import connectToMySQL
 
-@app.route('/tareas')
+@app.route('/cine')
 def dashboard():
-    if 'user_id' not in session: return redirect('/')
-    filtros = {
-        'busqueda': request.args.get('busqueda', ''),
-        'estado': request.args.get('estado', 'Todos'),
-        'prioridad': request.args.get('prioridad', 'Todas')
+    if 'user_id' not in session:
+        return redirect('/')
+    peliculas = Pelicula.obtener_todas()
+    return render_template('dashboard.html', peliculas=peliculas)
+
+@app.route('/cine/nueva')
+def nueva_pelicula():
+    if 'user_id' not in session:
+        return redirect('/')
+    return render_template('nueva_pelicula.html')
+
+@app.route('/cine/crear', methods=['POST'])
+def crear_pelicula():
+    if 'user_id' not in session:
+        return redirect('/')
+    
+    if not Pelicula.validar_pelicula(request.form):
+        return redirect('/cine/nueva')
+        
+    data = {
+        "nombre_peli": request.form['nombre_peli'],
+        "director": request.form['director'],
+        "fecha_estreno": request.form['fecha_estreno'],
+        "sinopsis": request.form['sinopsis'],
+        "usuario_id": session['user_id']
     }
-    user_id = session['user_id']
-    return render_template('panel.html', 
-                           leis=cine.get_all_by_user(user_id, filtros),
-                           proximas=cine.get_upcoming_by_user(user_id),
-                           sinopsis=cine.get_resumen_by_user(user_id),
-                           categorias=Categoria.get_all_by_user(user_id),
-                           filtros=filtros)
+    
+    try:
+        Pelicula.guardar(data)
+    except Exception:
+        flash("El nombre de la película debe ser único.", "pelicula")
+        return redirect('/cine/nueva')
+        
+    return redirect('/cine')
 
-@app.route('/tareas/nueva')
-def nueva_tarea():
-    if 'user_id' not in session: return redirect('/')
-    return render_template('tarea_nueva.html', categorias=Categoria.get_all_by_user(session['user_id']))
+@app.route('/cine/<int:id>')
+def ver_pelicula(id):
+    if 'user_id' not in session:
+        return redirect('/')
+    pelicula = Pelicula.obtener_por_id({'id': id})
+    
+    # Obtener comentarios asociados
+    query = "SELECT comentarios.*, CONCAT(usuarios.nombre, ' ', usuarios.apellido) as autor FROM comentarios JOIN usuarios ON comentarios.usuario_id = usuarios.id WHERE pelicula_id = %(id)s;"
+    comentarios = connectToMySQL(Pelicula.db).query_db(query, {'id': id})
+    
+    return render_template('ver_pelicula.html', pelicula=pelicula, comentarios=comentarios)
 
-@app.route('/tareas/crear', methods=['POST'])
-def crear_tarea():
-    if 'user_id' not in session: return redirect('/')
-    if not cine.validate_task(request.form): return redirect('/tareas/nueva')
-    cine.save({**request.form, "user_id": session['user_id']})
-    return redirect('/tareas')
+@app.route('/cine/editar/<int:id>')
+def editar_pelicula(id):
+    if 'user_id' not in session:
+        return redirect('/')
+    pelicula = Pelicula.obtener_por_id({'id': id})
+    if pelicula.usuario_id != session['user_id']:
+        return redirect('/cine')
+    return render_template('editar_pelicula.html', pelicula=pelicula)
 
-@app.route('/tareas/<int:task_id>')
-def detalle_tarea(task_id):
-    if 'user_id' not in session: return redirect('/')
-    tarea = Tarea.get_by_id(task_id)
-    if not tarea or tarea.user_id != session['user_id']: return redirect('/tareas')
-    return render_template('tarea_detalle.html', tarea=tarea)
+@app.route('/cine/actualizar/<int:id>', methods=['POST'])
+def actualizar_pelicula(id):
+    if 'user_id' not in session:
+        return redirect('/')
+    
+    if not Pelicula.validar_pelicula(request.form):
+        return redirect(f'/cine/editar/{id}')
+        
+    data = {
+        "id": id,
+        "nombre_peli": request.form['nombre_peli'],
+        "director": request.form['director'],
+        "fecha_estreno": request.form['fecha_estreno'],
+        "sinopsis": request.form['sinopsis']
+    }
+    Pelicula.actualizar(data)
+    return redirect('/cine')
 
-@app.route('/tareas/editar/<int:task_id>')
-def editar_tarea(task_id):
-    if 'user_id' not in session: return redirect('/')
-    tarea = Tarea.get_by_id(task_id)
-    if not tarea or tarea.user_id != session['user_id']: return redirect('/tareas')
-    return render_template('tarea_editar.html', tarea=tarea, categorias=Categoria.get_all_by_user(session['user_id']))
+@app.route('/cine/borrar/<int:id>')
+def borrar_pelicula(id):
+    if 'user_id' not in session:
+        return redirect('/')
+    pelicula = Pelicula.obtener_por_id({'id': id})
+    if pelicula and pelicula.usuario_id == session['user_id']:
+        Pelicula.eliminar({'id': id})
+    return redirect('/cine')
 
-@app.route('/tareas/actualizar/<int:task_id>', methods=['POST'])
-def actualizar_tarea(task_id):
-    if 'user_id' not in session: return redirect('/')
-    tarea = Tarea.get_by_id(task_id)
-    if not tarea or tarea.user_id != session['user_id']: return redirect('/tareas')
-    if not Tarea.validate_task(request.form): return redirect(f'/tareas/editar/{task_id}')
-    Tarea.update({**request.form, "id": task_id})
-    return redirect('/tareas')
-
-@app.route('/tareas/estado/<int:task_id>/<string:estado>')
-def cambiar_estado(task_id, estado):
-    if 'user_id' not in session: return redirect('/')
-    tarea = Tarea.get_by_id(task_id)
-    if tarea and tarea.user_id == session['user_id']:
-        Tarea.update_estado(task_id, estado)
-    return redirect('/tareas')
-
-@app.route('/tareas/borrar/<int:task_id>')
-def borrar_tarea(task_id):
-    if 'user_id' not in session: return redirect('/')
-    tarea = Tarea.get_by_id(task_id)
-    if tarea and tarea.user_id == session['user_id']:
-        Tarea.delete(task_id)
-    return redirect('/tareas')
+@app.route('/comentar/<int:pelicula_id>', methods=['POST'])
+def agregar_comentario(pelicula_id):
+    if 'user_id' not in session:
+        return redirect('/')
+    
+    pelicula = Pelicula.obtener_por_id({'id': pelicula_id})
+    # BONUS: Un usuario no puede comentar su propia película
+    if pelicula.usuario_id == session['user_id']:
+        flash("Un usuario no puede comentar su propia película.", "comentario")
+        return redirect(f'/cine/{pelicula_id}')
+        
+    query = "INSERT INTO comentarios (comentario, usuario_id, pelicula_id) VALUES (%(comentario)s, %(usuario_id)s, %(pelicula_id)s);"
+    data = {
+        "comentario": request.form['comentario'],
+        "usuario_id": session['user_id'],
+        "pelicula_id": pelicula_id
+    }
+    connectToMySQL(Pelicula.db).query_db(query, data)
+    return redirect(f'/cine/{pelicula_id}')
