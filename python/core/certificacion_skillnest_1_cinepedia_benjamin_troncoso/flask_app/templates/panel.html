@@ -2,29 +2,13 @@
 {% block body %}
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>Mis Tareas</h2>
-    <a href="/tareas/nueva" class="btn btn-primary">+ Nueva Tarea</a>
+    <a href="/tareas/nueva" class="btn btn-primary">+ Nueva pelicula</a>
 </div>
 
 <!-- Filtros y Búsqueda -->
 <form action="/tareas" method="GET" class="row g-3 mb-4">
     <div class="col-md-4">
         <input type="text" name="busqueda" value="{{ filtros.busqueda }}" class="form-control" placeholder="Buscar por título...">
-    </div>
-    <div class="col-md-3">
-        <select name="estado" class="form-select">
-            <option value="Todos" {% if filtros.estado == 'Todos' %}selected{% endif %}>Todos los estados</option>
-            <option value="Pendiente" {% if filtros.estado == 'Pendiente' %}selected{% endif %}>Pendiente</option>
-            <option value="En progreso" {% if filtros.estado == 'En progreso' %}selected{% endif %}>En progreso</option>
-            <option value="Completada" {% if filtros.estado == 'Completada' %}selected{% endif %}>Completada</option>
-        </select>
-    </div>
-    <div class="col-md-3">
-        <select name="prioridad" class="form-select">
-            <option value="Todas" {% if filtros.prioridad == 'Todas' %}selected{% endif %}>Todas las prioridades</option>
-            <option value="Alta" {% if filtros.prioridad == 'Alta' %}selected{% endif %}>Alta</option>
-            <option value="Media" {% if filtros.prioridad == 'Media' %}selected{% endif %}>Media</option>
-            <option value="Baja" {% if filtros.prioridad == 'Baja' %}selected{% endif %}>Baja</option>
-        </select>
     </div>
     <div class="col-md-2">
         <button type="submit" class="btn btn-secondary w-100">Filtrar</button>
@@ -35,11 +19,9 @@
 <table class="table table-bordered table-striped">
     <thead class="table-dark">
         <tr>
-            <th>Título</th>
-            <th>Categoría</th>
-            <th>Prioridad</th>
-            <th>Fecha Límite</th>
-            <th>Estado</th>
+            <th>Peliculas</th>
+            <th>director</th>
+            <th>Fecha de estreno</th>
             <th>Acciones</th>
         </tr>
     </thead>
