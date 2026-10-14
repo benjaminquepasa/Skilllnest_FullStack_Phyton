@@ -1,12 +1,10 @@
-# ==========================================
-# SECCIÓN: IMPORTACIONES Y DEPENDENCIAS
-# ==========================================
+# importancias y dependencias
+
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask import flash
 
-# ==========================================
-# SECCIÓN: CLASE MODELO PELÍCULA
-# ==========================================
+# clase modelo pelciula
+
 class Pelicula:
     db = "cine_pedia"
 
@@ -19,26 +17,21 @@ class Pelicula:
         self.usuario_id = data['usuario_id']
         self.creador = data.get('creador', '')
 
-    # ==========================================
-    # SECCIÓN: MÉTODO PARA GUARDAR PELÍCULA
-    # ==========================================
+    # metodo para guardawr la pelicula
     @classmethod
     def guardar(cls, data):
         query = "INSERT INTO peliculas (nombre_peli, director, fecha_estreno, sinopsis, usuario_id) VALUES (%(nombre_peli)s, %(director)s, %(fecha_estreno)s, %(sinopsis)s, %(usuario_id)s);"
         return connectToMySQL(cls.db).query_db(query, data)
 
-    # ==========================================
-    # SECCIÓN: MÉTODO PARA OBTENER TODAS LAS PELÍCULAS
-    # ==========================================
+    # metodo para obtener todas las peliculas
+
     @classmethod
     def obtener_todas(cls):
         query = "SELECT peliculas.*, CONCAT(usuarios.nombre, ' ', usuarios.apellido) as creador FROM peliculas JOIN usuarios ON peliculas.usuario_id = usuarios.id;"
         resultados = connectToMySQL(cls.db).query_db(query)
         return [cls(p) for p in resultados]
 
-    # ==========================================
-    # SECCIÓN: MÉTODO PARA OBTENER PELÍCULA POR ID
-    # ==========================================
+    # metodo para obtener la pelicula por id
     @classmethod
     def obtener_por_id(cls, data):
         query = "SELECT peliculas.*, CONCAT(usuarios.nombre, ' ', usuarios.apellido) as creador FROM peliculas JOIN usuarios ON peliculas.usuario_id = usuarios.id WHERE peliculas.id = %(id)s;"
@@ -47,25 +40,19 @@ class Pelicula:
             return cls(resultado[0])
         return None
 
-    # ==========================================
-    # SECCIÓN: MÉTODO PARA ACTUALIZAR PELÍCULA
-    # ==========================================
+    # metodo para actualizar la pelicula
     @classmethod
     def actualizar(cls, data):
         query = "UPDATE peliculas SET nombre_peli = %(nombre_peli)s, director = %(director)s, fecha_estreno = %(fecha_estreno)s, sinopsis = %(sinopsis)s WHERE id = %(id)s;"
         return connectToMySQL(cls.db).query_db(query, data)
 
-    # ==========================================
-    # SECCIÓN: MÉTODO PARA ELIMINAR PELÍCULA
-    # ==========================================
+    # metodo para eliminar la pelicula
     @classmethod
     def eliminar(cls, data):
         query = "DELETE FROM peliculas WHERE id = %(id)s;"
         return connectToMySQL(cls.db).query_db(query, data)
 
-    # ==========================================
-    # SECCIÓN: VALIDACIONES DEL FORMULARIO DE PELÍCULA
-    # ==========================================
+    # validacion de formulario de la pelicula
     @staticmethod
     def validar_pelicula(formulario):
         is_valid = True

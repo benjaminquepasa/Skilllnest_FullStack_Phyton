@@ -1,6 +1,5 @@
-# ==========================================
-# SECCIÓN: IMPORTACIONES Y DEPENDENCIAS
-# ==========================================
+# importancias y dependencias
+
 from flask import render_template, redirect, request, session, flash
 from flask_app import app
 from flask_app.models.usuario import Usuario
@@ -8,16 +7,14 @@ from flask_bcrypt import Bcrypt
 
 bcrypt = Bcrypt(app)
 
-# ==========================================
-# SECCIÓN: RUTA PRINCIPAL (ÍNDICE / INICIO)
-# ==========================================
+# ruta principal
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
-# ==========================================
-# SECCIÓN: RUTA DE REGISTRO DE USUARIOS
-# ==========================================
+# ruta de registro de usuarios
+
 @app.route('/registrar', methods=['POST'])
 def registrar():
     if not Usuario.validar_registro(request.form):
@@ -34,9 +31,8 @@ def registrar():
     session['nombre_usuario'] = request.form['nombre']
     return redirect('/cine')
 
-# ==========================================
-# SECCIÓN: RUTA DE INICIO DE SESIÓN (LOGIN)
-# ==========================================
+# ruta de inicio de sesion
+
 @app.route('/login', methods=['POST'])
 def login():
     usuario = Usuario.obtener_por_email({'email': request.form['email']})
@@ -51,9 +47,8 @@ def login():
     session['nombre_usuario'] = usuario.nombre
     return redirect('/cine')
 
-# ==========================================
-# SECCIÓN: RUTA DE CIERRE DE SESIÓN (LOGOUT)
-# ==========================================
+# ruta de cierre de sesion
+
 @app.route('/logout')
 def logout():
     session.clear()

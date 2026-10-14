@@ -1,12 +1,7 @@
-<!-- ========================================== -->
-<!-- SECCIÓN: HERENCIA DE PLANTILLA Y BLOQUE DE CONTENIDO -->
-<!-- ========================================== -->
 {% extends "base.html" %}
 {% block content %}
 
-<!-- ========================================== -->
-<!-- SECCIÓN: CABECERA Y BOTONES DE NAVEGACIÓN -->
-<!-- ========================================== -->
+<!-- botones de navegacion-->>
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>Editar Película</h2>
     <div>
@@ -15,9 +10,8 @@
     </div>
 </div>
 
-<!-- ========================================== -->
-<!-- SECCIÓN: MENSAJES FLASH DE ERROR (VALIDACIONES) -->
-<!-- ========================================== -->
+<!-- mensajes flash de error -->
+
 {% with messages = get_flashed_messages(category_filter=['pelicula']) %}
     {% if messages %}
         <div class="alert alert-danger">
@@ -28,9 +22,8 @@
     {% endif %}
 {% endwith %}
 
-<!-- ========================================== -->
-<!-- SECCIÓN: FORMULARIO DE EDICIÓN DE PELÍCULA -->
-<!-- ========================================== -->
+<!-- formulario de edicion de pelicula -->
+
 <form action="/cine/actualizar/{{ pelicula.id }}" method="POST" class="w-50">
     <div class="mb-3">
         <label>Nombre de Peli:</label>

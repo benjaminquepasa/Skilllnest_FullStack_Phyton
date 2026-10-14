@@ -1,12 +1,10 @@
-<!-- ========================================== -->
-<!-- SECCIÓN: HERENCIA DE PLANTILLA Y BLOQUE DE CONTENIDO -->
-<!-- ========================================== -->
+<!-- plantilla y bloque de contenido-->
+
 {% extends "base.html" %}
 {% block content %}
 
-<!-- ========================================== -->
-<!-- SECCIÓN: CABECERA DE BIENVENIDA Y BOTONES DE ACCIÓN -->
-<!-- ========================================== -->
+<!-- cabecera de bienvenida y botones de inicio-->
+
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>Bienvenido, {{ session['nombre_usuario'] }}</h2>
     <div>
@@ -15,9 +13,8 @@
     </div>
 </div>
 
-<!-- ========================================== -->
-<!-- SECCIÓN: TABLA DE LISTADO DE PELÍCULAS -->
-<!-- ========================================== -->
+<!-- tabal de lista de peliculas-->
+
 <table class="table table-bordered table-striped">
     <thead class="table-dark">
         <tr>
@@ -28,9 +25,7 @@
         </tr>
     </thead>
     <tbody>
-        <!-- ========================================== -->
-        <!-- SECCIÓN: BUCLE JINJA2 PARA MOSTRAR CADA PELÍCULA -->
-        <!-- ========================================== -->
+        <!-- bucle jinja2 para mostar pelicula -->
         {% for p in peliculas %}
         <tr>
             <td><a href="/cine/{{ p.id }}">{{ p.nombre_peli }}</a></td>
@@ -38,9 +33,7 @@
             <td>{{ p.fecha_estreno }}</td>
             <td>
                 <a href="/cine/{{ p.id }}" class="btn btn-sm btn-info text-white">Ver</a>
-                <!-- ========================================== -->
-                <!-- SECCIÓN: ACCIONES CONDICIONALES PARA EL CREADOR -->
-                <!-- ========================================== -->
+                <!-- acciones condicionales para creador-->
                 {% if p.usuario_id == session['user_id'] %}
                     <a href="/cine/editar/{{ p.id }}" class="btn btn-sm btn-warning">Editar</a>
                     <a href="/cine/borrar/{{ p.id }}" class="btn btn-sm btn-danger">Borrar</a>
