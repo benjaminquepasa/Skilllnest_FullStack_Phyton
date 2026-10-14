@@ -1,5 +1,12 @@
+<!-- ========================================== -->
+<!-- SECCIÓN: HERENCIA DE PLANTILLA Y BLOQUE DE CONTENIDO -->
+<!-- ========================================== -->
 {% extends "base.html" %}
 {% block content %}
+
+<!-- ========================================== -->
+<!-- SECCIÓN: CABECERA DE BIENVENIDA Y BOTONES DE ACCIÓN -->
+<!-- ========================================== -->
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>Bienvenido, {{ session['nombre_usuario'] }}</h2>
     <div>
@@ -8,6 +15,9 @@
     </div>
 </div>
 
+<!-- ========================================== -->
+<!-- SECCIÓN: TABLA DE LISTADO DE PELÍCULAS -->
+<!-- ========================================== -->
 <table class="table table-bordered table-striped">
     <thead class="table-dark">
         <tr>
@@ -18,6 +28,9 @@
         </tr>
     </thead>
     <tbody>
+        <!-- ========================================== -->
+        <!-- SECCIÓN: BUCLE JINJA2 PARA MOSTRAR CADA PELÍCULA -->
+        <!-- ========================================== -->
         {% for p in peliculas %}
         <tr>
             <td><a href="/cine/{{ p.id }}">{{ p.nombre_peli }}</a></td>
@@ -25,6 +38,9 @@
             <td>{{ p.fecha_estreno }}</td>
             <td>
                 <a href="/cine/{{ p.id }}" class="btn btn-sm btn-info text-white">Ver</a>
+                <!-- ========================================== -->
+                <!-- SECCIÓN: ACCIONES CONDICIONALES PARA EL CREADOR -->
+                <!-- ========================================== -->
                 {% if p.usuario_id == session['user_id'] %}
                     <a href="/cine/editar/{{ p.id }}" class="btn btn-sm btn-warning">Editar</a>
                     <a href="/cine/borrar/{{ p.id }}" class="btn btn-sm btn-danger">Borrar</a>

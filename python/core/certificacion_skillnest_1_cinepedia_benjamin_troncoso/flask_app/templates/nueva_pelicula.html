@@ -1,5 +1,12 @@
+<!-- ========================================== -->
+<!-- SECCIÓN: HERENCIA DE PLANTILLA Y BLOQUE DE CONTENIDO -->
+<!-- ========================================== -->
 {% extends "base.html" %}
 {% block content %}
+
+<!-- ========================================== -->
+<!-- SECCIÓN: CABECERA Y BOTONES DE NAVEGACIÓN -->
+<!-- ========================================== -->
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>Nueva Película</h2>
     <div>
@@ -8,16 +15,22 @@
     </div>
 </div>
 
+<!-- ========================================== -->
+<!-- SECCIÓN: MENSAJES FLASH DE ERROR (VALIDACIONES) -->
+<!-- ========================================== -->
 {% with messages = get_flashed_messages(category_filter=['pelicula']) %}
     {% if messages %}
         <div class="alert alert-danger">
             {% for message in messages %}
-                <p class="mb-0">- {{ message }}</p>
+                <p class="mb-0">{{ message }}</p>
             {% endfor %}
         </div>
     {% endif %}
 {% endwith %}
 
+<!-- ========================================== -->
+<!-- SECCIÓN: FORMULARIO DE NUEVA PELÍCULA -->
+<!-- ========================================== -->
 <form action="/cine/crear" method="POST" class="w-50">
     <div class="mb-3">
         <label>Nombre de Peli:</label>

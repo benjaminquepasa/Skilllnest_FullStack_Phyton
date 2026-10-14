@@ -42,5 +42,5 @@ class MySQLConnection:
                 self.connection.close()
 
 # INSTANCIACIÓN
-def connect_to_mysql(db):
+def connectToMySQL(db):
     return MySQLConnection(db)

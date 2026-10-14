@@ -1,9 +1,15 @@
+# ==========================================
+# SECCIÓN: IMPORTACIONES Y DEPENDENCIAS
+# ==========================================
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask import flash
 import re
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
+# ==========================================
+# SECCIÓN: CLASE MODELO USUARIO
+# ==========================================
 class Usuario:
     db = "cine_pedia"
 
@@ -16,11 +22,17 @@ class Usuario:
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
 
+    # ==========================================
+    # SECCIÓN: MÉTODO PARA GUARDAR USUARIO
+    # ==========================================
     @classmethod
     def guardar(cls, data):
         query = "INSERT INTO usuarios (nombre, apellido, email, password) VALUES (%(nombre)s, %(apellido)s, %(email)s, %(password)s);"
         return connectToMySQL(cls.db).query_db(query, data)
 
+    # ==========================================
+    # SECCIÓN: MÉTODO PARA OBTENER USUARIO POR EMAIL
+    # ==========================================
     @classmethod
     def obtener_por_email(cls, data):
         query = "SELECT * FROM usuarios WHERE email = %(email)s;"
@@ -29,6 +41,9 @@ class Usuario:
             return False
         return cls(resultado[0])
 
+    # ==========================================
+    # SECCIÓN: VALIDACIONES DE REGISTRO DE USUARIO
+    # ==========================================
     @staticmethod
     def validar_registro(formulario):
         is_valid = True

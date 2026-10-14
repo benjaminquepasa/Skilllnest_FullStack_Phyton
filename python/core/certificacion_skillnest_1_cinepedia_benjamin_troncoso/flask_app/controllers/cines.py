@@ -1,8 +1,14 @@
+# ==========================================
+# SECCIÓN: IMPORTACIONES Y DEPENDENCIAS
+# ==========================================
 from flask import render_template, redirect, request, session, flash
 from flask_app import app
 from flask_app.models.cine import Pelicula
 from flask_app.config.mysqlconnection import connectToMySQL
 
+# ==========================================
+# SECCIÓN: PANEL PRINCIPAL (DASHBOARD DE CINE)
+# ==========================================
 @app.route('/cine')
 def dashboard():
     if 'user_id' not in session:
@@ -10,12 +16,18 @@ def dashboard():
     peliculas = Pelicula.obtener_todas()
     return render_template('dashboard.html', peliculas=peliculas)
 
+# ==========================================
+# SECCIÓN: VISTA PARA CREAR NUEVA PELÍCULA
+# ==========================================
 @app.route('/cine/nueva')
 def nueva_pelicula():
     if 'user_id' not in session:
         return redirect('/')
     return render_template('nueva_pelicula.html')
 
+# ==========================================
+# SECCIÓN: PROCESO DE CREACIÓN DE PELÍCULA
+# ==========================================
 @app.route('/cine/crear', methods=['POST'])
 def crear_pelicula():
     if 'user_id' not in session:
@@ -40,6 +52,9 @@ def crear_pelicula():
         
     return redirect('/cine')
 
+# ==========================================
+# SECCIÓN: VER DETALLE DE PELÍCULA Y COMENTARIOS
+# ==========================================
 @app.route('/cine/<int:id>')
 def ver_pelicula(id):
     if 'user_id' not in session:
@@ -52,6 +67,9 @@ def ver_pelicula(id):
     
     return render_template('ver_pelicula.html', pelicula=pelicula, comentarios=comentarios)
 
+# ==========================================
+# SECCIÓN: VISTA PARA EDITAR PELÍCULA
+# ==========================================
 @app.route('/cine/editar/<int:id>')
 def editar_pelicula(id):
     if 'user_id' not in session:
@@ -61,6 +79,9 @@ def editar_pelicula(id):
         return redirect('/cine')
     return render_template('editar_pelicula.html', pelicula=pelicula)
 
+# ==========================================
+# SECCIÓN: PROCESO DE ACTUALIZACIÓN DE PELÍCULA
+# ==========================================
 @app.route('/cine/actualizar/<int:id>', methods=['POST'])
 def actualizar_pelicula(id):
     if 'user_id' not in session:
@@ -79,6 +100,9 @@ def actualizar_pelicula(id):
     Pelicula.actualizar(data)
     return redirect('/cine')
 
+# ==========================================
+# SECCIÓN: ELIMINACIÓN DE PELÍCULA
+# ==========================================
 @app.route('/cine/borrar/<int:id>')
 def borrar_pelicula(id):
     if 'user_id' not in session:
@@ -88,6 +112,9 @@ def borrar_pelicula(id):
         Pelicula.eliminar({'id': id})
     return redirect('/cine')
 
+# ==========================================
+# SECCIÓN: AGREGAR COMENTARIO A PELÍCULA
+# ==========================================
 @app.route('/comentar/<int:pelicula_id>', methods=['POST'])
 def agregar_comentario(pelicula_id):
     if 'user_id' not in session:

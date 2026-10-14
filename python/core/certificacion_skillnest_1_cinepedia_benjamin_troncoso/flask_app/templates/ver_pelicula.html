@@ -1,5 +1,12 @@
+<!-- ========================================== -->
+<!-- SECCIÓN: HERENCIA DE PLANTILLA Y BLOQUE DE CONTENIDO -->
+<!-- ========================================== -->
 {% extends "base.html" %}
 {% block content %}
+
+<!-- ========================================== -->
+<!-- SECCIÓN: CABECERA CON TÍTULO Y BOTONES DE NAVEGACIÓN -->
+<!-- ========================================== -->
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>{{ pelicula.nombre_peli }}</h2>
     <div>
@@ -8,6 +15,9 @@
     </div>
 </div>
 
+<!-- ========================================== -->
+<!-- SECCIÓN: TARJETA DE DETALLES DE LA PELÍCULA -->
+<!-- ========================================== -->
 <div class="card p-4 mb-4 shadow-sm">
     <p><strong>Publicado por:</strong> {{ pelicula.creador }}</p>
     <p><strong>Director:</strong> {{ pelicula.director }}</p>
@@ -17,6 +27,9 @@
 
 <hr>
 
+<!-- ========================================== -->
+<!-- SECCIÓN: ENCABEZADO DE COMENTARIOS Y MENSAJES FLASH -->
+<!-- ========================================== -->
 <h4>Comentarios</h4>
 {% with messages = get_flashed_messages(category_filter=['comentario']) %}
     {% if messages %}
@@ -28,15 +41,22 @@
     {% endif %}
 {% endwith %}
 
+<!-- ========================================== -->
+<!-- SECCIÓN: LISTADO DE COMENTARIOS EXISTENTES -->
+<!-- ========================================== -->
 <ul class="list-group mb-4">
     {% for c in comentarios %}
     <li class="list-group-item">
-        <strong>{{ c.autor }}</strong> - <small class="text-muted">{{ c.created_at }}</small>
+        <strong>{{ c.autor }}</strong>
+        <small class="text-muted">{{ c.created_at }}</small>
         <p class="mb-0 mt-1">{{ c.comentario }}</p>
     </li>
     {% endfor %}
 </ul>
 
+<!-- ========================================== -->
+<!-- SECCIÓN: FORMULARIO PARA NUEVO COMENTARIO -->
+<!-- ========================================== -->
 <form action="/comentar/{{ pelicula.id }}" method="POST" class="w-75">
     <div class="input-group">
         <input type="text" name="comentario" class="form-control" placeholder="Escribe un comentario...">
