@@ -28,7 +28,38 @@
 ### 4. Conexión y Seguridad (`mysqlconnection.py`)
 * **`MySQLConnection` y `connectToMySQL`**: Clase y función auxiliar encargadas de gestionar la conexión con la base de datos MySQL mediante `PyMySQL` y variables de entorno seguras (`python-dotenv`), controlando automáticamente la ejecución de consultas y transacciones (`COMMIT`).
 
+## Estructura de Archivos del Proyecto
+```text
+certificacion_skillnest_1_cinepedia_benjamin_troncoso/
+│
+├── .env                          
+├── .gitignore                    
+├── server.py                     
+│
+└── flask_app/                    
+    ├── __init__.py               
+    │
+    ├── config/
+    │   └── mysqlconnection.py    
+    │
+    ├── controllers/
+    │   ├── categorias.py         
+    │   ├── cines.py              
+    │   └── usuarios.py          
+    │
+    ├── models/
+    │   ├── categoria.py          
+    │   ├── cine.py               
+    │   └── usuario.py            
+    │
+    └── templates/
+        ├── base.html           
+        ├── dashboard.html        
+        ├── editar_pelicula.html 
+        ├── index.html            
+        ├── nueva_pelicula.html   
+        └── ver_pelicula.html     
+
 ---
-### 
 **AUTOR**
 benjamin troncoso 4°C
