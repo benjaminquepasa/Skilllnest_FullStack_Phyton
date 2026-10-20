@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
+<!-- Título de la vista -->
 <h3 class="mb-3">Nueva Entrada</h3>
 
+<!-- Mensajes flash de error -->
 {% for mensaje in get_flashed_messages(category_filter=['entrada']) %}
     <div class="alert alert-danger p-2">{{ mensaje }}</div>
 {% endfor %}
 
+<!-- Formulario para crear entrada -->
 <form action="/crear" method="POST" class="p-4 bg-white shadow rounded">
     <div class="mb-3">
         <label>Fecha Entrada:</label>

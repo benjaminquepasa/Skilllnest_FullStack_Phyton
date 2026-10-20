@@ -1,15 +1,20 @@
-from flask_app import app
-from flask import render_template, redirect, request, session, flash
+# Importar Flask, Blueprint y herramientas necesarias
+from flask import Blueprint, render_template, redirect, request, session, flash
 from flask_app.models.usuario import Usuario
 from flask_bcrypt import Bcrypt
+from flask_app import app
 
+# Definir el Blueprint para usuarios
+usuarios_bp = Blueprint('usuarios', __name__)
 bcrypt = Bcrypt(app)
 
-@app.route('/')
+# Ruta principal (registro y login)
+@usuarios_bp.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/registro', methods=['POST'])
+# Ruta para procesar el registro
+@usuarios_bp.route('/registro', methods=['POST'])
 def registro():
     if not Usuario.validar_registro(request.form):
         return redirect('/')
@@ -27,7 +32,8 @@ def registro():
     session['nombre_usuario'] = request.form['nombre']
     return redirect('/dashboard')
 
-@app.route('/login', methods=['POST'])
+# Ruta para procesar el inicio de sesión
+@usuarios_bp.route('/login', methods=['POST'])
 def login():
     usuario = Usuario.obtener_por_email(request.form['email'])
     if not usuario:
@@ -41,7 +47,15 @@ def login():
     session['nombre_usuario'] = usuario.nombre
     return redirect('/dashboard')
 
-@app.route('/logout')
+# Ruta para cerrar sesión
+@usuarios_bp.route('/logout')
 def logout():
     session.clear()
+    return redirect('/')
+
+# Ruta de validación para rutas perdidas (Catch-all)
+@usuarios_bp.route('/<path:path>', methods=['GET', 'POST'])
+def ruta_perdida(path):
+    if 'usuario_id' in session:
+        return redirect('/dashboard')
     return redirect('/')

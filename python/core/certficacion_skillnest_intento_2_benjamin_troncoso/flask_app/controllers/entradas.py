@@ -1,21 +1,27 @@
-from flask_app import app
-from flask import render_template, redirect, request, session
+# Importar Blueprint y funciones de renderizado
+from flask import Blueprint, render_template, redirect, request, session
 from flask_app.models.entrada import Entrada
 
-@app.route('/dashboard')
+# Definir el Blueprint para entradas
+entradas_bp = Blueprint('entradas', __name__)
+
+# Ruta del dashboard principal
+@entradas_bp.route('/dashboard')
 def dashboard():
     if 'usuario_id' not in session:
         return redirect('/')
     entradas = Entrada.obtener_por_usuario(session['usuario_id'])
     return render_template('dashboard.html', entradas=entradas)
 
-@app.route('/nuevo')
+# Ruta para la vista de nueva entrada
+@entradas_bp.route('/nuevo')
 def nueva_entrada():
     if 'usuario_id' not in session:
         return redirect('/')
     return render_template('nueva_entrada.html')
 
-@app.route('/crear', methods=['POST'])
+# Ruta para crear una entrada en la BD
+@entradas_bp.route('/crear', methods=['POST'])
 def crear_entrada():
     if 'usuario_id' not in session:
         return redirect('/')
@@ -30,7 +36,8 @@ def crear_entrada():
     Entrada.guardar(data)
     return redirect('/dashboard')
 
-@app.route('/ver/<int:id>')
+# Ruta para ver una entrada específica
+@entradas_bp.route('/ver/<int:id>')
 def ver_entrada(id):
     if 'usuario_id' not in session:
         return redirect('/')
@@ -39,7 +46,8 @@ def ver_entrada(id):
         return redirect('/dashboard')
     return render_template('ver_entrada.html', entrada=entrada)
 
-@app.route('/editor/<int:id>')
+# Ruta para el editor de entradas
+@entradas_bp.route('/editor/<int:id>')
 def editar_entrada(id):
     if 'usuario_id' not in session:
         return redirect('/')
@@ -48,7 +56,8 @@ def editar_entrada(id):
         return redirect('/dashboard')
     return render_template('editar_entrada.html', entrada=entrada)
 
-@app.route('/actualizar/<int:id>', methods=['POST'])
+# Ruta para actualizar una entrada
+@entradas_bp.route('/actualizar/<int:id>', methods=['POST'])
 def actualizar_entrada(id):
     if 'usuario_id' not in session:
         return redirect('/')
@@ -66,7 +75,8 @@ def actualizar_entrada(id):
     Entrada.actualizar(data)
     return redirect('/dashboard')
 
-@app.route('/borrar/<int:id>')
+# Ruta para borrar una entrada
+@entradas_bp.route('/borrar/<int:id>')
 def borrar_entrada(id):
     if 'usuario_id' not in session:
         return redirect('/')
@@ -75,14 +85,16 @@ def borrar_entrada(id):
         Entrada.eliminar(id)
     return redirect('/dashboard')
 
-@app.route('/buscar/<termino>')
+# Ruta para buscar entradas
+@entradas_bp.route('/buscar/<termino>')
 def buscar(termino):
     if 'usuario_id' not in session:
         return redirect('/')
     entradas = Entrada.buscar_por_termino(termino, session['usuario_id'])
     return render_template('buscar.html', entradas=entradas, termino=termino)
 
-@app.route('/buscar_redirect', methods=['POST'])
+# Ruta para procesar el formulario de búsqueda
+@entradas_bp.route('/buscar_redirect', methods=['POST'])
 def buscar_redirect():
     if 'usuario_id' not in session:
         return redirect('/')

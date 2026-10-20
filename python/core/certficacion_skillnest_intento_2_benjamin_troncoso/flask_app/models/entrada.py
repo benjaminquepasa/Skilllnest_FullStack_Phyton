@@ -1,3 +1,4 @@
+# Importar conexión y librerías de fecha
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask import flash
 from datetime import datetime
@@ -14,11 +15,13 @@ class Entrada:
         self.updated_at = data['updated_at']
         self.creador = data.get('creador_nombre')
 
+    # Método para guardar una nueva entrada
     @classmethod
     def guardar(cls, data):
         query = "INSERT INTO entradas (fecha_entrada, notas, usuario_id) VALUES (%(fecha_entrada)s, %(notas)s, %(usuario_id)s);"
         return connectToMySQL(cls.db).query_db(query, data)
 
+    # Método para obtener entradas por usuario
     @classmethod
     def obtener_por_usuario(cls, usuario_id):
         query = "SELECT entradas.*, usuarios.nombre as creador_nombre FROM entradas JOIN usuarios ON entradas.usuario_id = usuarios.id WHERE usuarios.id = %(usuario_id)s ORDER BY entradas.fecha_entrada DESC;"
@@ -27,6 +30,7 @@ class Entrada:
             return []
         return [cls(fila) for fila in resultados]
 
+    # Método para obtener una entrada por su ID
     @classmethod
     def obtener_por_id(cls, id):
         query = "SELECT entradas.*, usuarios.nombre as creador_nombre FROM entradas JOIN usuarios ON entradas.usuario_id = usuarios.id WHERE entradas.id = %(id)s;"
@@ -35,6 +39,7 @@ class Entrada:
             return False
         return cls(resultado[0])
 
+    # Método para buscar entradas por término
     @classmethod
     def buscar_por_termino(cls, termino, usuario_id):
         query = "SELECT entradas.*, usuarios.nombre as creador_nombre FROM entradas JOIN usuarios ON entradas.usuario_id = usuarios.id WHERE entradas.usuario_id = %(usuario_id)s AND entradas.notas LIKE %(termino)s ORDER BY entradas.fecha_entrada DESC;"
@@ -47,16 +52,19 @@ class Entrada:
             return []
         return [cls(fila) for fila in resultados]
 
+    # Método para actualizar una entrada
     @classmethod
     def actualizar(cls, data):
         query = "UPDATE entradas SET fecha_entrada = %(fecha_entrada)s, notas = %(notas)s WHERE id = %(id)s;"
         return connectToMySQL(cls.db).query_db(query, data)
 
+    # Método para eliminar una entrada
     @classmethod
     def eliminar(cls, id):
         query = "DELETE FROM entradas WHERE id = %(id)s;"
         return connectToMySQL(cls.db).query_db(query, {'id': id})
 
+    # Método para validar los datos de la entrada
     @staticmethod
     def validar_entrada(formulario):
         es_valido = True

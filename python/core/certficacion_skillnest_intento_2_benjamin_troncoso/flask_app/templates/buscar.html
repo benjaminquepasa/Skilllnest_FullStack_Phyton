@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+<!-- Título con el término buscado -->
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3>Resultados para: "{{ termino }}"</h3>
     <div>
@@ -8,6 +9,7 @@
     </div>
 </div>
 
+<!-- Resultados de búsqueda -->
 <div class="row">
     {% for entrada in entradas %}
     <div class="col-md-4 mb-3">

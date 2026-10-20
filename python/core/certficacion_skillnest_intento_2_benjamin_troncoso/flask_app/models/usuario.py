@@ -1,7 +1,9 @@
+# Importar conexión y herramientas de validación
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask import flash
 import re
 
+# Expresión regular para validar formato de correo
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
 class Usuario:
@@ -17,20 +19,22 @@ class Usuario:
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
         
+    # Método para guardar un nuevo usuario
     @classmethod
     def guardar(cls, data):
         query = "INSERT INTO usuarios (nombre, apellido, email, edad, password) VALUES (%(nombre)s, %(apellido)s, %(email)s, %(edad)s, %(password)s);"
         return connectToMySQL(cls.db).query_db(query, data)
 
+    # Método para buscar usuario por email
     @classmethod
     def obtener_por_email(cls, email):
         query = "SELECT * FROM usuarios WHERE email = %(email)s;"
         resultado = connectToMySQL(cls.db).query_db(query, {'email': email})
-        # Si hay un error en la BD (devuelve False) o no encuentra resultados (vacío)
         if not resultado:
             return False
         return cls(resultado[0])
 
+    # Método para buscar usuario por ID
     @classmethod
     def obtener_por_id(cls, id):
         query = "SELECT * FROM usuarios WHERE id = %(id)s;"
@@ -39,6 +43,7 @@ class Usuario:
             return False
         return cls(resultado[0])
 
+    # Método estático para validar el formulario de registro
     @staticmethod
     def validar_registro(formulario):
         es_valido = True

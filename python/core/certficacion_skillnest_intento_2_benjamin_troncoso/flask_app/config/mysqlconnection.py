@@ -1,3 +1,4 @@
+# Importar librerías necesarias
 import os
 import pymysql.cursors
 from dotenv import load_dotenv
