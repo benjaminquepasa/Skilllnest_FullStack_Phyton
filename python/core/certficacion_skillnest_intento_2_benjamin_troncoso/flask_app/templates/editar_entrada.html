@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3 class="mb-3">Editar Entrada</h3>
+
+{% for mensaje in get_flashed_messages(category_filter=['entrada']) %}
+    <div class="alert alert-danger p-2">{{ mensaje }}</div>
+{% endfor %}
+
+<form action="/actualizar/{{ entrada.id }}" method="POST" class="p-4 bg-white shadow rounded">
+    <div class="mb-3">
+        <label>Fecha Entrada:</label>
+        <input type="date" name="fecha_entrada" value="{{ entrada.fecha_entrada }}" class="form-control" style="max-width: 250px;">
+    </div>
+    <div class="mb-3">
+        <label>Notas:</label>
+        <textarea name="notas" class="form-control" rows="5">{{ entrada.notas }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-dark">Guardar</button>
+</form>
+{% endblock %}

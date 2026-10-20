@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3>Bienvenid@, {{ session.nombre_usuario }}</h3>
+    <div>
+        <a href="/nuevo" class="text-decoration-none me-3">Nueva Entrada</a>
+        <a href="/logout" class="text-decoration-none text-danger">Cerrar Sesión</a>
+    </div>
+</div>
+
+<form action="/buscar_redirect" method="POST" class="input-group mb-4 shadow-sm" style="max-width: 400px;">
+    <input type="text" name="termino" class="form-control" placeholder="Término a Buscar">
+    <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+</form>
+
+<div class="row">
+    {% for entrada in entradas %}
+    <div class="col-md-6 mb-3">
+        <div class="card p-3 shadow-sm bg-white">
+            <h5>Entrada</h5>
+            <p class="text-muted">{{ entrada.fecha_entrada }}</p>
+            <div class="d-flex justify-content-between">
+                <a href="/editor/{{ entrada.id }}" class="btn btn-sm btn-outline-dark">Editar</a>
+                <a href="/borrar/{{ entrada.id }}" class="btn btn-sm btn-outline-danger">Borrar</a>
+                <a href="/ver/{{ entrada.id }}" class="btn btn-sm btn-outline-primary">Ver</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col-12">
+        <div class="alert alert-info">
+            No tienes entradas registradas todavía. Haz clic en <strong>"Nueva Entrada"</strong> para crear la primera.
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
